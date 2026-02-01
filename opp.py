@@ -41,3 +41,4 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
