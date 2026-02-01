@@ -34,12 +34,13 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         
         # שליחת ההנחיה והשאלה יחד
         full_prompt = f"{characters[char_choice]}\n\n{prompt}"
-        response = model.generate_content(full_prompt)
+        response = model.generate_content(f"{characters[char_choice]}\n\n{prompt}")
         
         with st.chat_message("assistant"):
             st.markdown(response.text)
         st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
 
 
