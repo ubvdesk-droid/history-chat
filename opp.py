@@ -5,7 +5,7 @@ import google.generativeai as genai
 st.set_page_config(page_title="צ'אט עם ההיסטוריה", layout="wide")
 
 # כאן תכניס את ה-API Key שקיבלת מגוגל
-API_KEY = "AIzaSyC1w7s22qrk5WQXa2GoYSEyrdEMeqRXk_A"
+API_KEY = "AIzaSyDiFlWO0X3AFCmC5hehqzw3971B_FEBBQc"
 genai.configure(api_key=API_KEY)
 
 # תפריט בחירת דמויות
@@ -43,6 +43,7 @@ if prompt := st.chat_input("כתוב משהו..."):
     with st.chat_message("assistant"):
         st.markdown(response.text)
     st.session_state.messages.append({"role": "assistant", "content": response.text})
+
 
 
 
