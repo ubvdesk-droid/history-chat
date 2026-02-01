@@ -1,55 +1,40 @@
 import streamlit as st
 import google.generativeai as genai
 
-# הגדרת כותרת האתר
-st.set_page_config(page_title="צ'אט עם ההיסטוריה", layout="wide")
+# הגדרת המפתח - וודא שהמפתח החדש שלך כאן
+genai.configure(api_key="AIzaSy...") # שים כאן את המפתח החדש!
 
-# כאן תכניס את ה-API Key שקיבלת מגוגל
-API_KEY = "AIzaSyDiFlWO0X3AFCmC5hehqzw3971B_FEBBQc"
-genai.configure(api_key=API_KEY)
+st.title("צ'אט היסטורי")
 
-# תפריט בחירת דמויות
-st.sidebar.title("בחר דמות:")
-char_choice = st.sidebar.selectbox("", ["יוליוס קיסר", "נפוליאון", "אלברט איינשטיין"])
-
-# הגדרות לכל דמות
+# רשימת הדמויות
 characters = {
-    "יוליוס קיסר": "אתה יוליוס קיסר. ענה תמיד בעברית גבוהה וסמכותית. אתה מנהיג רומאי.",
-    "נפוליאון": "אתה נפוליאון בונפרטה. ענה בעברית רהוטה עם ביטחון עצמי של קיסר צרפתי.",
-    "אלברט איינשטיין": "אתה אלברט איינשטיין. ענה בעברית סבלנית, חכמה ומלאת סקרנות."
+    "יוליוס קיסר": "אתה יוליוס קיסר, קיסר רומא. ענה בעברית קולחת וסמכותית.",
+    "אלברט איינשטיין": "אתה אלברט איינשטיין. ענה בעברית, היה חכם וסקרן.",
+    "נפוליאון בונפרטה": "אתה נפוליאון. ענה בעברית כקיסר צרפת הגאה."
 }
 
-st.title(f"שיחה עם {char_choice}")
+char_choice = st.sidebar.selectbox("בחר דמות:", list(characters.keys()))
 
-# ניהול הזיכרון של הצ'אט
-if "messages" not in st.session_state or st.sidebar.button("נקה צ'אט"):
+if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# הצגת ההודעות
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
-# תיבת קלט מהמשתמש
-if prompt := st.chat_input("כתוב משהו..."):
+if prompt := st.chat_input("שאל אותי משהו..."):
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
 
-    # שליחה למודל של גוגל
-    model = genai.GenerativeModel(model_name="gemini-1.5-flash")
-    response = model.generate_content(prompt)
-    
-    with st.chat_message("assistant"):
-        st.markdown(response.text)
-    st.session_state.messages.append({"role": "assistant", "content": response.text})
-
-
-
-
-
-
-
-
-
-
+    try:
+        # שימוש במודל עם הגדרות מלאות למניעת NotFound
+        model = genai.GenerativeModel(model_name="gemini-1.5-flash")
+        response = model.generate_content([characters[char_choice], prompt])
+        
+        full_response = response.text
+        with st.chat_message("assistant"):
+            st.markdown(full_response)
+        st.session_state.messages.append({"role": "assistant", "content": full_response})
+    except Exception as e:
+        st.error(f"שגיאה: {e}")
