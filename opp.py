@@ -30,7 +30,7 @@ if prompt := st.chat_input("שאל אותי משהו..."):
 
     try:
         # שימוש במודל היציב ביותר למניעת 404
-        model = genai.GenerativeModel('gemini-pro')
+        model = genai.GenerativeModel
         
         # שליחת ההנחיה והשאלה יחד
         full_prompt = f"{characters[char_choice]}\n\n{prompt}"
@@ -41,4 +41,5 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         st.session_state.messages.append({"role": "assistant", "content": response.text})
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
 
