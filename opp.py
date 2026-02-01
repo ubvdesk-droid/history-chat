@@ -1,17 +1,17 @@
 import streamlit as st
 import google.generativeai as genai
 
-# הגדרת המפתח שלך
+# 1. הגדרת המפתח (וודא שהוא בתוך מירכאות)
 API_KEY = "AIzaSyDiFlWO0X3AFCmC5hehqzw3971B_FEBBQc"
 genai.configure(api_key=API_KEY)
 
 st.title("צ'אט היסטורי")
 
-# רשימת הדמויות עם הנחיות נקיות
+# 2. רשימת הדמויות
 characters = {
-    "יוליוס קיסר": "אתה יוליוס קיסר, קיסר רומא. ענה בעברית סמכותית.",
+    "יוליוס קיסר": "אתה יוליוס קיסר. ענה בעברית סמכותית.",
     "אלברט איינשטיין": "אתה אלברט איינשטיין. ענה בעברית כפיזיקאי סקרן.",
-    "נפוליאון בונפרטה": "אתה נפוליאון. ענה בעברית כקיסר צרפת הגאה."
+    "נפוליאון בונפרטה": "אתה נפוליאון. ענה בעברית כקיסר צרפת."
 }
 
 char_choice = st.sidebar.selectbox("בחר דמות:", list(characters.keys()))
@@ -19,7 +19,6 @@ char_choice = st.sidebar.selectbox("בחר דמות:", list(characters.keys()))
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
-# הצגת היסטוריית הצ'אט
 for message in st.session_state.messages:
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
@@ -30,11 +29,11 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         st.markdown(prompt)
 
     try:
-        # שימוש בשם המודל המדויק למניעת שגיאת 404
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        # 3. השם שיפתור את שגיאת ה-404 (שם המודל המלא)
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
         
-        # שליחת ההנחיה והשאלה יחד
-        response = model.generate_content(f"{characters[char_choice]}\n\nהמשתמש שואל: {prompt}")
+        # שליחת ההנחיה והשאלה
+        response = model.generate_content(f"{characters[char_choice]}\n\nשאלה: {prompt}")
         
         with st.chat_message("assistant"):
             st.markdown(response.text)
