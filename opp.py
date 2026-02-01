@@ -37,11 +37,12 @@ if prompt := st.chat_input("כתוב משהו..."):
         st.markdown(prompt)
 
     # שליחה למודל של גוגל
-    model = genai.GenerativeModel('models/gemini-1.5-flash', system_instruction=characters[char_choice])
+    model = genai.GenerativeModel('gemini-pro', system_instruction=characters[char_choice])
     response = model.generate_content(prompt)
     
     with st.chat_message("assistant"):
         st.markdown(response.text)
     st.session_state.messages.append({"role": "assistant", "content": response.text})
+
 
 
