@@ -2,7 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 
 # הגדרת המפתח - וודא שהמפתח החדש שלך כאן
-genai.configure(api_key="AIzaSy...") # שים כאן את המפתח החדש!
+API_KEY = "AIzaSyDiFlWO0X3AFCmC5hehqzw3971B_FEBBQc"
 
 st.title("צ'אט היסטורי")
 
@@ -38,3 +38,4 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         st.session_state.messages.append({"role": "assistant", "content": full_response})
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
