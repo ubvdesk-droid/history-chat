@@ -1,12 +1,13 @@
 import streamlit as st
 import google.generativeai as genai
 
-# הגדרת המפתח - וודא שהמפתח החדש שלך כאן
-genai.configure(api_key=API_KEY)
+# הגדרת המפתח - חייב להופיע לפני השימוש בו
 API_KEY = "AIzaSyDiFlWO0X3AFCmC5hehqzw3971B_FEBBQc"
 
-st.title("צ'אט היסטורי")
+# חיבור המפתח לספרייה של גוגל
+genai.configure(api_key=API_KEY)
 
+st.title("צ'אט היסטורי")
 # רשימת הדמויות
 characters = {
     "יוליוס קיסר": "אתה יוליוס קיסר, קיסר רומא. ענה בעברית קולחת וסמכותית.",
@@ -39,5 +40,6 @@ if prompt := st.chat_input("שאל אותי משהו..."):
         st.session_state.messages.append({"role": "assistant", "content": full_response})
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
 
 
