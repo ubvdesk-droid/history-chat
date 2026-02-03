@@ -32,7 +32,7 @@ if prompt := st.chat_input("שאל אותי משהו..."):
 
     try:
         # שימוש במודל יציב
-        model = genai.GenerativeModel('gemini-1.5-flash')
+        model = genai.GenerativeModel("gemini-1.5-pro")
         
         # התיקון הקריטי: הגדרת ה-contents בדיוק כפי שהמודל מצפה (כרשימה)
         instruction = characters[char_choice]
@@ -47,3 +47,4 @@ if prompt := st.chat_input("שאל אותי משהו..."):
 
     except Exception as e:
         st.error(f"שגיאה: {e}")
+
